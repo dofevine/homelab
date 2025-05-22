@@ -1,0 +1,18 @@
+env:
+  headers: "off"
+  database: "postgres"
+  pg_user: "kong"
+  pg_password: "kong123"
+  pg_database: "kong"
+  pg_host: "kong-db-postgresql"
+  pg_port: 5432
+  pg_ssl: "off"
+admin:
+  http:
+    enabled: true
+  enabled: true
+  type: ClusterIP
+  tls:
+    enabled: false
+proxy:
+  loadBalancerIP: 20.0.20.100

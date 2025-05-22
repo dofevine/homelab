@@ -1,0 +1,13 @@
+
+defaultSettings:
+  defaultDataPath: "/longhorn/"
+  createDefaultDiskLabeledNodes: true
+ingress:
+  enabled: true
+  ingressClassName: kong
+  host: ""
+  tls: false
+  path: /longhorn/
+  pathType: ImplementationSpecific
+  annotations:
+    konghq.com/strip-path: "true"

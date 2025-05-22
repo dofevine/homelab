@@ -1,0 +1,24 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: admin-acl
+plugin: acl
+config:
+  allow: ['admin']
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: op-acl
+plugin: acl
+config:
+  allow: ['op']
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: cliente-acl
+plugin: acl
+config:
+  allow: ['cliente']
+---

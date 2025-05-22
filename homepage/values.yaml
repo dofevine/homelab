@@ -1,0 +1,100 @@
+replicaCount: 1
+image:
+  repository: ghcr.io/gethomepage/homepage
+  pullPolicy: IfNotPresent
+  tag: latest
+namespace: homepage
+imagePullSecrets: []
+serviceAccount:
+  create: true
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: kong
+  annotations:
+    konghq.com/preserve-host: "true"
+  hosts:
+    - host: "k8scp"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources:
+  {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+volumes:
+  - name: homepage-config
+    configMap:
+      name: homepage
+  - name: logs
+    emptyDir: {}
+
+volumeMounts:
+  - mountPath: /app/config/custom.js
+    name: homepage-config
+    subPath: custom.js
+  - mountPath: /app/config/custom.css
+    name: homepage-config
+    subPath: custom.css
+  - mountPath: /app/config/bookmarks.yaml
+    name: homepage-config
+    subPath: bookmarks.yaml
+  - mountPath: /app/config/docker.yaml
+    name: homepage-config
+    subPath: docker.yaml
+  - mountPath: /app/config/kubernetes.yaml
+    name: homepage-config
+    subPath: kubernetes.yaml
+  - mountPath: /app/config/services.yaml
+    name: homepage-config
+    subPath: services.yaml
+  - mountPath: /app/config/settings.yaml
+    name: homepage-config
+    subPath: settings.yaml
+  - mountPath: /app/config/widgets.yaml
+    name: homepage-config
+    subPath: widgets.yaml
+  - mountPath: /app/config/logs
+    name: logs
+
+nodeSelector:
+  node-role.kubernetes.io/worker: worker
+
+tolerations: []
+
+affinity: {}

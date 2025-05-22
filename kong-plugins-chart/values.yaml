@@ -1,0 +1,9 @@
+kongPlugins:
+  corsOrigins:
+    - "*"
+  headers: []
+  headersWeb: []
+  consumers:
+    - username: domingos
+      group: admin
+      key: domingos

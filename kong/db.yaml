@@ -1,0 +1,8 @@
+global:
+  defaultStorageClass: "longhorn"
+  postgresql:
+    auth:
+      postgresPassword: "YWprc2RjMTg3MmFzZDU0YXNk"
+      username: "kong"
+      password: "kong123"
+      database: "kong"
