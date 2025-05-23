@@ -1,78 +1,76 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ragnarok.fullname" . }}
+  name: {{ include "ragnarok.fullname" . }}-login-server
   labels:
-    {{- include "ragnarok.labels" . | nindent 4 }}
+    {{- include "ragnarok.loginServer.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "ragnarok.selectorLabels" . | nindent 6 }}
+      {{- include "ragnarok.loginServer.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.loginServer.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ragnarok.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
+        {{- include "ragnarok.loginServer.labels" . | nindent 8 }}
+        {{- with .Values.loginServer.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.loginServer.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ragnarok.serviceAccountName" . }}
-      {{- with .Values.podSecurityContext }}
+      
+      {{- with .Values.loginServer.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- with .Values.securityContext }}
+          {{- with .Values.loginServer.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.loginServer.image.repository }}:{{ .Values.loginServer.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.loginServer.image.pullPolicy }}
+          command: ["/rathena/login-server"]
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.loginServer.service.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with .Values.loginServer.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
+          {{- with .Values.loginServer.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources }}
+          {{- with .Values.loginServer.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
+          {{- with .Values.loginServer.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes }}
+      {{- with .Values.loginServer.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.loginServer.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.loginServer.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.loginServer.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

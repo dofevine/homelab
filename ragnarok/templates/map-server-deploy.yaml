@@ -1,78 +1,76 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ragnarok.fullname" . }}
+  name: {{ include "ragnarok.fullname" . }}-map-server
   labels:
-    {{- include "ragnarok.labels" . | nindent 4 }}
+    {{- include "ragnarok.mapServer.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "ragnarok.selectorLabels" . | nindent 6 }}
+      {{- include "ragnarok.mapServer.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.mapServer.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "ragnarok.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
+        {{- include "ragnarok.mapServer.labels" . | nindent 8 }}
+        {{- with .Values.mapServer.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.mapServer.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ragnarok.serviceAccountName" . }}
-      {{- with .Values.podSecurityContext }}
+      
+      {{- with .Values.mapServer.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- with .Values.securityContext }}
+          {{- with .Values.mapServer.securityContext }}
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.mapServer.image.repository }}:{{ .Values.mapServer.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.mapServer.image.pullPolicy }}
+          command: ["/rathena/map-server"]
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.mapServer.service.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
+          {{- with .Values.mapServer.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
+          {{- with .Values.mapServer.readinessProbe }}
           readinessProbe:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.resources }}
+          {{- with .Values.mapServer.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.volumeMounts }}
+          {{- with .Values.mapServer.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-      {{- with .Values.volumes }}
+      {{- with .Values.mapServer.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.mapServer.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.mapServer.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.mapServer.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

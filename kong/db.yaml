@@ -4,5 +4,5 @@ global:
     auth:
       postgresPassword: "YWprc2RjMTg3MmFzZDU0YXNk"
       username: "kong"
-      password: "kong123"
+      password: "2U2fu68hI194"
       database: "kong"

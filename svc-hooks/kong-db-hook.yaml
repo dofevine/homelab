@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kong-db
+  namespace: db
+spec:
+  type: ExternalName
+  externalName: kong-db-postgresql.kong.svc.cluster.local
+  ports:
+  - port: 5432

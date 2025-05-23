@@ -2,7 +2,7 @@ env:
   headers: "off"
   database: "postgres"
   pg_user: "kong"
-  pg_password: "kong123"
+  pg_password: "2U2fu68hI194"
   pg_database: "kong"
   pg_host: "kong-db-postgresql"
   pg_port: 5432

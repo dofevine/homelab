@@ -30,33 +30,73 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+
+
+
+{{/*
+char server
+*/}}
+
 {{/*
 Common labels
 */}}
-{{- define "ragnarok.labels" -}}
+{{- define "ragnarok.charServer.labels" -}}
 helm.sh/chart: {{ include "ragnarok.chart" . }}
-{{ include "ragnarok.selectorLabels" . }}
+{{ include "ragnarok.charServer.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
-
 {{/*
 Selector labels
 */}}
-{{- define "ragnarok.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "ragnarok.name" . }}
+{{- define "ragnarok.charServer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ragnarok.name" . }}-char-server
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/*
+login server
+*/}}
+{{/*
+Common labels
+*/}}
+{{- define "ragnarok.loginServer.labels" -}}
+helm.sh/chart: {{ include "ragnarok.chart" . }}
+{{ include "ragnarok.loginServer.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+{{/*
+Selector labels
+*/}}
+{{- define "ragnarok.loginServer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ragnarok.name" . }}-login-server
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+map server
 */}}
-{{- define "ragnarok.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "ragnarok.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{/*
+Common labels
+*/}}
+{{- define "ragnarok.mapServer.labels" -}}
+helm.sh/chart: {{ include "ragnarok.chart" . }}
+{{ include "ragnarok.mapServer.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+{{/*
+Selector labels
+*/}}
+{{- define "ragnarok.mapServer.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ragnarok.name" . }}-map-server
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

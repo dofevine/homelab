@@ -7,7 +7,10 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
+    ingress: true
   settings.yaml: |
+   #  base: http://k8scp/home
+   #  base: http://host.local/home
    providers:
      longhorn:
        url: http://192.168.0.10/longhorn/

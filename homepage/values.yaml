@@ -18,10 +18,15 @@ service:
   port: 3000
 
 ingress:
-  enabled: false
+  enabled: true
   className: kong
   annotations:
     konghq.com/preserve-host: "true"
+    gethomepage.dev/description: Dynamically Detected Homepage
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/icon: homepage.png
+    gethomepage.dev/name: Homepage
   hosts:
     - host: "k8scp"
       paths:
@@ -32,8 +37,7 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources:
-  {}
+resources:  {}
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
