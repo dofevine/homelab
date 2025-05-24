@@ -2,7 +2,7 @@ charServer:
   image:
     repository: ragnarok
     pullPolicy: Never
-    tag: "latest"
+    tag: "20220406"
 
   imagePullSecrets: []
 
@@ -18,14 +18,14 @@ charServer:
 
   ingress:
     enabled: false
-    className: ""
-    annotations: {}
+    className: "kong"
+    annotations:
+      konghq.com/strip-path: "true"
     hosts:
-      - host: chart-example.latest
+      - host: "k8csp"
         paths:
-          - path: /
+          - path: /char-server
             pathType: ImplementationSpecific
-    tls: []
 
   resources:
     limits:
@@ -79,7 +79,7 @@ loginServer:
   image:
     repository: ragnarok
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "20220406"
   imagePullSecrets: []
 
   podAnnotations: {}
@@ -96,14 +96,14 @@ loginServer:
 
   ingress:
     enabled: false
-    className: ""
-    annotations: {}
+    className: "kong"
+    # annotations:
+    #   konghq.com/strip-path: "true"
     hosts:
-      - host: chart-example.latest
+      - host: ""
         paths:
           - path: /
             pathType: ImplementationSpecific
-    tls: []
 
   resources:
     limits:
@@ -155,7 +155,7 @@ mapServer:
   image:
     repository: ragnarok
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "20220406"
 
   imagePullSecrets: []
 
@@ -172,15 +172,14 @@ mapServer:
 
   ingress:
     enabled: false
-    className: ""
-    annotations: {}
-
+    className: "kong"
+    annotations:
+      konghq.com/strip-path: "true"
     hosts:
-      - host: chart-example.latest
+      - host: "k8csp"
         paths:
-          - path: /
+          - path: /map-server
             pathType: ImplementationSpecific
-    tls: []
 
   resources:
     limits:

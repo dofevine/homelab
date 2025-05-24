@@ -1,0 +1,43 @@
+{{- if .Values.loginServer.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "ragnarok.fullname" . }}-login-server
+  labels:
+    {{- include "ragnarok.loginServer.labels" . | nindent 4 }}
+  {{- with .Values.loginServer.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.loginServer.ingress.className }}
+  ingressClassName: {{ . }}
+  {{- end }}
+  {{- if .Values.loginServer.ingress.tls }}
+  tls:
+    {{- range .Values.loginServer.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.loginServer.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            {{- with .pathType }}
+            pathType: {{ . }}
+            {{- end }}
+            backend:
+              service:
+                name: {{ include "ragnarok.fullname" $ }}-login-server
+                port:
+                  number: {{ $.Values.loginServer.service.port }}
+          {{- end }}
+    {{- end }}
+{{- end }}
