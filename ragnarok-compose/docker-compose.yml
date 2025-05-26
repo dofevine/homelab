@@ -1,6 +1,6 @@
 services:
-    database:
-        image: "docker.io/bitnami/mysql:9.3.0-debian-12-r0"
+    rathenadb:
+        image: "mariadb:bionic"
         container_name: "database"
         ports:
             - "3306:3306" # allow DB connections from host
@@ -12,7 +12,8 @@ services:
             MYSQL_DATABASE: ragnarok
             MYSQL_USER: ragnarok
             MYSQL_PASSWORD: ragnarok123
-
+        networks:
+            - local
     login:
         image: "ragnarok:20220406"
         container_name: "rathena-login"
@@ -27,7 +28,9 @@ services:
         tty: true
         stdin_open: true
         depends_on:
-            - database
+            - rathenadb
+        networks:
+            - local
     char:
         image: "ragnarok:20220406"
         container_name: "rathena-char"
@@ -43,6 +46,8 @@ services:
         stdin_open: true
         depends_on:
             - login
+        networks:
+            - local
     map:
         image: "ragnarok:20220406"
         container_name: "rathena-map"
@@ -58,6 +63,9 @@ services:
         stdin_open: true
         depends_on:
             - char
-
+        networks:
+            - local
 volumes:
     rathenadb:
+networks:
+    local:
