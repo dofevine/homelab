@@ -1,0 +1,4 @@
+server_name: dodoRO
+userid: dfvneto
+passwd: neto123b
+login_ip: ragnarok-login-server

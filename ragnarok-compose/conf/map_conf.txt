@@ -1,0 +1,3 @@
+char_ip: ragnarok-char-server
+userid: dfvneto
+passwd: neto123b
