@@ -6,6 +6,7 @@ metadata:
     app.kubernetes.io/instance: jellyfin
     app.kubernetes.io/name: jellyfin
   name: jellyfin-data-pvc
+  namespace: jellyfin
 spec:
   accessModes:
     - ReadWriteOnce
