@@ -11,3 +11,5 @@ ingress:
   pathType: ImplementationSpecific
   annotations:
     konghq.com/strip-path: "true"
+persistence:
+  defaultClassReplicaCount: 1
