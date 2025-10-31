@@ -1,6 +1,0 @@
-auth:
-  rootPassword: "mysql"
-  createDatabase: true
-  database: "ragnarok"
-  username: "ragnarok"
-  password: "ragnarok123"

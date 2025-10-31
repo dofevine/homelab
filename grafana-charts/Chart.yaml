@@ -1,5 +1,0 @@
-apiVersion: v2
-name: grafana
-version: 0.0.3
-description: "Chart responsible for deploying grafana"
-appVersion: "9.5.3"
